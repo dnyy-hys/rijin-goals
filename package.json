@@ -1,0 +1,28 @@
+{
+  "name": "rijin-goals",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@11.25.0",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "wrangler pages dev public",
+    "test": "node --test test/*.test.js",
+    "backup": "node scripts/backup.js",
+    "legacy:dev": "node --watch server.js",
+    "d1:local": "wrangler d1 execute rijin-goals --local --file=schema.sql",
+    "d1:remote": "wrangler d1 execute rijin-goals --remote --file=schema.sql",
+    "vapid:generate": "node scripts/generate-vapid.js",
+    "deploy:reminders": "wrangler deploy --config workers/reminders/wrangler.jsonc"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "dependencies": {
+    "web-push": "^3.6.7",
+    "@block65/webcrypto-web-push": "2.0.0"
+  },
+  "devDependencies": {
+    "wrangler": "4.151.2"
+  }
+}

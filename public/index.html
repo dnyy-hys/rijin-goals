@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f1e8" />
+    <meta name="description" content="日进 · 把长期愿望，走成今天的一小步。" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/app.css?v=1" />
+    <title>日进 · 一点一点，终有丈量</title>
+  </head>
+  <body>
+    <div class="app-shell" id="appShell">
+      <aside class="sidebar" aria-label="主导航">
+        <a class="brand" href="/?view=today" aria-label="日进首页">
+          <span class="brand-name">日进</span>
+          <span class="brand-caption">日进一寸，终有丈量 <span class="seal">进</span></span>
+        </a>
+
+        <nav class="primary-nav" aria-label="页面">
+          <button class="nav-item is-active" data-view="today" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg><span>今天</span>
+          </button>
+          <button class="nav-item" data-view="goals" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/><path d="m13 11 7-7"/></svg><span>长期目标</span>
+          </button>
+          <button class="nav-item" data-view="history" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18m-12 5 2 2 4-4"/></svg><span>完成记录</span>
+          </button>
+          <button class="nav-item" data-view="settings" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.6a8 8 0 0 1-1.6.9l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.6-.9l-1.7.6-1.4-2.4 1.4-1.1a8 8 0 0 1 0-1.9l-1.4-1.1 1.4-2.4 1.7.6a8 8 0 0 1 1.6-.9l.3-1.8h2.8l.3 1.8a8 8 0 0 1 1.6.9l1.7-.6 1.4 2.4-1.4 1.1a8 8 0 0 1 0 1.8Z" transform="translate(-2 -2) scale(1.17)"/></svg><span>设置</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-note">
+          <div class="note-rule"></div>
+          <p>不积跬步，<br />无以至千里；<br />不积小流，<br />无以成江海。</p>
+          <span>—《荀子 · 劝学》</span>
+        </div>
+
+        <div class="sidebar-footer">
+          <div class="user-chip" id="userChip" hidden>
+            <span class="avatar" id="userAvatar">进</span>
+            <span class="user-email" id="userEmail"></span>
+            <button class="icon-button logout-button" id="logoutButton" type="button" aria-label="退出登录" title="退出登录">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5m5 5H3m9-9h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/></svg>
+            </button>
+          </div>
+          <div class="seal-mark" aria-hidden="true">日日<br />有进</div>
+        </div>
+      </aside>
+
+      <main class="main-panel" id="mainPanel">
+        <div class="mobile-topbar">
+          <a class="mobile-brand" href="/?view=today">日进 <span class="seal">进</span></a>
+          <button class="icon-button" id="mobileSettings" type="button" aria-label="打开设置">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a8 8 0 0 0 0-6l1.4-1.1-1.4-2.4-1.7.6a8 8 0 0 0-5.4-1.7L12 2h-2l-.3 2.4a8 8 0 0 0-2.7 1.1l-1.7-.6-1.4 2.4L5.3 9a8 8 0 0 0 0 6l-1.4 1.1 1.4 2.4 1.7-.6a8 8 0 0 0 2.7 1.1L10 21h2l.3-2.4a8 8 0 0 0 2.7-1.1l1.7.6 1.4-2.4L19.4 15Z"/></svg>
+          </button>
+        </div>
+        <div class="view-root" id="viewRoot" aria-live="polite"></div>
+      </main>
+
+      <aside class="right-panel" id="rightPanel" aria-label="目标与近期进度"></aside>
+    </div>
+
+    <nav class="mobile-nav" aria-label="主导航">
+      <button class="mobile-nav-item is-active" data-view="today" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.5 1.5m11.2 11.2 1.5 1.5M2 12h2m16 0h2M4.9 19.1l1.5-1.5M17.6 6.4l1.5-1.5"/></svg><span>今天</span></button>
+      <button class="mobile-nav-item" data-view="goals" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/></svg><span>目标</span></button>
+      <button class="mobile-nav-item" data-view="history" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg><span>记录</span></button>
+      <button class="mobile-nav-item" data-view="settings" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19 15a8 8 0 0 0 0-6l1.4-1.1L19 5.5l-1.7.6a8 8 0 0 0-5.4-1.7L11.6 2h-2l-.3 2.4a8 8 0 0 0-2.7 1.1l-1.7-.6-1.4 2.4L4.9 8.4a8 8 0 0 0 0 6l-1.4 1.1L4.9 18l1.7-.6a8 8 0 0 0 2.7 1.1l.3 2.4h2l.3-2.4a8 8 0 0 0 2.7-1.1l1.7.6 1.4-2.4L19 15Z"/></svg><span>设置</span></button>
+    </nav>
+
+    <div class="toast-region" id="toastRegion" aria-live="assertive" aria-atomic="true"></div>
+
+    <dialog class="modal" id="authDialog" aria-labelledby="authTitle">
+      <form class="modal-card auth-card" id="authForm" novalidate>
+        <button class="modal-close icon-button" type="button" data-close-dialog aria-label="关闭"><span aria-hidden="true">×</span></button>
+        <span class="eyebrow">从今天，开始一点点</span>
+        <h1 id="authTitle">欢迎回来</h1>
+        <p class="modal-lead" id="authLead">让每一次小小的坚持，都看得见。</p>
+        <label class="field-label" for="authEmail">邮箱</label>
+        <input id="authEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+        <label class="field-label" for="authPassword">密码 <span class="field-hint">至少 10 位</span></label>
+        <input id="authPassword" name="password" type="password" autocomplete="current-password" minlength="10" placeholder="••••••••••" required />
+        <p class="form-error" id="authError" role="alert"></p>
+        <button class="button button-primary button-wide" id="authSubmit" type="submit">登录</button>
+        <button class="text-button auth-switch" id="authSwitch" type="button">还没有账号？创建一个</button>
+        <p class="privacy-note">你的目标和记录只属于你。其他账号无法查看。</p>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="taskDialog" aria-labelledby="taskDialogTitle">
+      <form class="modal-card" id="taskForm">
+        <button class="modal-close icon-button" type="button" data-close-dialog aria-label="关闭"><span aria-hidden="true">×</span></button>
+        <span class="eyebrow">让目标落在今天</span>
+        <h2 id="taskDialogTitle">添加每日行动</h2>
+        <p class="modal-lead">从一件具体、轻巧的小事开始。</p>
+        <label class="field-label" for="taskTitle">今天要做什么？</label>
+        <input id="taskTitle" name="title" maxlength="180" placeholder="例如：读书 20 分钟" required />
+        <label class="field-label" for="taskGoal">关联长期目标 <span class="field-hint">可选</span></label>
+        <select id="taskGoal" name="goalId"><option value="">暂不关联</option></select>
+        <div id="taskMilestoneWrap" hidden>
+          <label class="field-label" for="taskMilestone">关联阶段 <span class="field-hint">可选</span></label>
+          <select id="taskMilestone" name="milestoneId"><option value="">暂不关联</option></select>
+        </div>
+        <label class="field-label" for="taskDate">行动日期</label>
+        <input id="taskDate" name="localDate" type="date" required />
+        <p class="form-error" id="taskError" role="alert"></p>
+        <button class="button button-primary button-wide" type="submit">放进今天</button>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="goalDialog" aria-labelledby="goalDialogTitle">
+      <form class="modal-card" id="goalForm">
+        <button class="modal-close icon-button" type="button" data-close-dialog aria-label="关闭"><span aria-hidden="true">×</span></button>
+        <span class="eyebrow">把远方，拆成可走的路</span>
+        <h2 id="goalDialogTitle">设定一个长期目标</h2>
+        <p class="modal-lead">先写下你想抵达的地方，再加上路上的里程碑。</p>
+        <input id="goalEditId" name="editId" type="hidden" />
+        <label class="field-label" for="goalTitle">目标名称</label>
+        <input id="goalTitle" name="title" maxlength="120" placeholder="例如：完成一次半程马拉松" required />
+        <label class="field-label" for="goalDescription">为什么它对你重要？ <span class="field-hint">可选</span></label>
+        <textarea id="goalDescription" name="description" rows="2" maxlength="1000" placeholder="写给未来的自己"></textarea>
+        <label class="field-label" for="goalDeadline">预计完成日期 <span class="field-hint">可选</span></label>
+        <input id="goalDeadline" name="deadline" type="date" />
+        <div id="goalMilestonesFields">
+          <label class="field-label" for="goalMilestones">阶段 / 里程碑 <span class="field-hint">每行一个，可留空</span></label>
+          <textarea id="goalMilestones" name="milestones" rows="4" maxlength="1200" placeholder="建立每周训练习惯&#10;完成 5 公里&#10;完成 10 公里"></textarea>
+        </div>
+        <p class="form-error" id="goalError" role="alert"></p>
+        <button class="button button-primary button-wide" type="submit">种下这个目标</button>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="milestoneDialog" aria-labelledby="milestoneDialogTitle">
+      <form class="modal-card" id="milestoneForm">
+        <button class="modal-close icon-button" type="button" data-close-dialog aria-label="关闭"><span aria-hidden="true">×</span></button>
+        <span class="eyebrow">下一步，清晰可见</span>
+        <h2 id="milestoneDialogTitle">添加一个阶段</h2>
+        <p class="modal-lead" id="milestoneGoalLabel"></p>
+        <label class="field-label" for="milestoneTitle">阶段名称</label>
+        <input id="milestoneTitle" name="title" maxlength="120" placeholder="例如：完成 5 公里" required />
+        <p class="form-error" id="milestoneError" role="alert"></p>
+        <button class="button button-primary button-wide" type="submit">添加阶段</button>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="confirmDialog" aria-labelledby="confirmTitle">
+      <form method="dialog" class="modal-card confirm-card">
+        <span class="eyebrow">再确认一下</span>
+        <h2 id="confirmTitle">删除这个目标？</h2>
+        <p class="modal-lead" id="confirmText">相关阶段和行动也会删除。</p>
+        <div class="confirm-actions"><button class="button button-quiet" value="cancel">先保留</button><button class="button button-danger" id="confirmDelete" value="confirm">确定删除</button></div>
+      </form>
+    </dialog>
+
+    <script type="module" src="/app.js?v=1"></script>
+  </body>
+</html>

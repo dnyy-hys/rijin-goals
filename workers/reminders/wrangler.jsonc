@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "rijin-goals-reminders",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-20",
+  "triggers": { "crons": ["*/5 * * * *"] },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "rijin-goals",
+      "database_id": "REPLACE_WITH_D1_DATABASE_ID"
+    }
+  ],
+  "vars": { "VAPID_SUBJECT": "mailto:replace-with-your-contact@example.com" }
+}

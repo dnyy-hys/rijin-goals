@@ -1,0 +1,13 @@
+{
+  email {$ADMIN_EMAIL}
+}
+
+{$DOMAIN} {
+  encode zstd gzip
+  header Strict-Transport-Security "max-age=31536000"
+  reverse_proxy app:4173 {
+    header_up X-Forwarded-For {remote_host}
+    header_up X-Forwarded-Host {host}
+    header_up X-Forwarded-Proto {scheme}
+  }
+}

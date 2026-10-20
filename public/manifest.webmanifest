@@ -1,0 +1,14 @@
+{
+  "name": "日进 · 一点一点，终有丈量",
+  "short_name": "日进",
+  "description": "把长期愿望，走成今天的一小步。",
+  "lang": "zh-CN",
+  "start_url": "/?view=today",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f5f2e9",
+  "theme_color": "#f5f2e9",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

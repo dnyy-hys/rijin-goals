@@ -1,0 +1,57 @@
+name: rijin
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    init: true
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 4173
+      DB_PATH: /app/data/daybyday.sqlite
+      PUBLIC_ORIGIN: https://${DOMAIN:?Set DOMAIN in .env}
+      VAPID_SUBJECT: mailto:${ADMIN_EMAIL:?Set ADMIN_EMAIL in .env}
+      TRUST_PROXY: "1"
+    # No public port: only Caddy can reach the application from this network.
+    volumes:
+      - app_data:/app/data
+      - app_backups:/app/backups
+    networks:
+      - backend
+    stop_grace_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    environment:
+      DOMAIN: ${DOMAIN:?Set DOMAIN in .env}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:?Set ADMIN_EMAIL in .env}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - backend
+    depends_on:
+      app:
+        condition: service_healthy
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+networks:
+  backend:
+volumes:
+  app_data:
+  app_backups:
+  caddy_data:
+  caddy_config:
