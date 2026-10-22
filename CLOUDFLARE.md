@@ -36,12 +36,12 @@ pnpm d1:remote
 | Project name | `rijin-goals`（如占用则用控制台允许的其他名称） |
 | Production branch | `main` |
 | Framework preset | `None` |
-| Build command | 留空；如果表单要求非空可填 `echo ready` |
+| Build command | `pnpm install --frozen-lockfile` |
 | Build output directory | `public` |
 | Root directory | 留空 |
 | 环境变量 `NODE_VERSION` | `24` |
 
-以上假设仓库根目录就是当前项目目录。构建系统安装依赖并编译 `functions/`。不要填 `pnpm start` 或 `node server.js`；那是旧版服务器命令。
+以上假设仓库根目录就是当前项目目录。构建命令安装锁定版本的依赖，随后 Pages 编译 `functions/`；不要留空，否则可能跳过依赖安装，导致推送模块无法解析。项目通过 `.node-version` 指定 Node.js 24，通过 `packageManager` 指定 pnpm 版本。不要填 `pnpm start` 或 `node server.js`；那是旧版服务器命令。
 
 仓库的 `wrangler.jsonc` 是配置来源，D1 binding 名称必须为 `DB`，连接步骤 1 的数据库。不要将输出目录设成仓库根目录。
 
