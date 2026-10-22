@@ -58,14 +58,14 @@ async function passwordHash(password, salt = crypto.getRandomValues(new Uint8Arr
   const key = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, ['deriveBits']);
   // Keep the work factor within the CPU budget of Cloudflare Pages Functions.
   // The salt is random per account and the rate limiter protects auth endpoints.
-  const result = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt, iterations: 120000 }, key, 256);
+  const result = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt, iterations: 20000 }, key, 256);
   const to64 = (bytes) => btoa(String.fromCharCode(...new Uint8Array(bytes))).replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '');
-  return `pbkdf2-sha256$120000$${to64(salt)}$${to64(result)}`;
+  return `pbkdf2-sha256$20000$${to64(salt)}$${to64(result)}`;
 }
 
 async function passwordMatches(password, saved) {
   const [algorithm, rounds, saltText, expectedText] = String(saved || '').split('$');
-  if (algorithm !== 'pbkdf2-sha256' || Number(rounds) !== 120000 || !saltText || !expectedText) return false;
+  if (algorithm !== 'pbkdf2-sha256' || Number(rounds) !== 20000 || !saltText || !expectedText) return false;
   const from64 = (value) => Uint8Array.from(atob(value.replaceAll('-', '+').replaceAll('_', '/') + '='.repeat((4 - value.length % 4) % 4)), (char) => char.charCodeAt(0));
   const salt = from64(saltText);
   const actualText = await passwordHash(password, salt);
